@@ -95,3 +95,5 @@ Personal
 lib64
 bin/
 pyvenv.cfg
+share/
+pip-selfcheck.json
