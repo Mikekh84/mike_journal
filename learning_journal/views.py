@@ -6,25 +6,25 @@ HERE = os.path.dirname(__file__)
 
 def list_view(request):
     """View the lists."""
-    imported_list = open(os.path.join(HERE, 'index.html')).read()
+    imported_list = open(os.path.join(HERE,'templates/index.html')).read()
     return Response(imported_list)
 
 
 def edit_view(request):
     """View the edit view."""
-    edit = open(os.path.join(HERE, 'editone.html')).read()
+    edit = open(os.path.join(HERE, 'templates/editone.html')).read()
     return Response(edit)
 
 
 def create_view(request):
     """View the create view."""
-    create = open(os.path.join(HERE, 'create.html')).read()
+    create = open(os.path.join(HERE, 'templates/create.html')).read()
     return Response(create)
 
 
 def detail_view(request):
     """View the detail view."""
-    detail = open(os.path.join(HERE, 'journalentryone.html')).read()
+    detail = open(os.path.join(HERE, 'templates/journalentryone.html')).read()
     return Response(detail)
 
 
