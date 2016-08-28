@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Learning Journal</title>
+  <meta charset="utf-8">
+    <link rel = "stylesheet" type= "text/css" href = "normalize.css"/>
+    <link rel = "stylesheet" type= "text/css" href = "style.css"/>
+</head>
+
+
+<body>
+  <header>
+    <h1 id="title">Mike's Learning Journal</h1>
+    <nav>
+      <ul>
+        <li class="three columns nav-links"><a href="/" id="home">Home</a></li>
+        <li class="three columns nav-links" ><a href="#" id="about">About</a></li>
+        <li class="three columns nav-links"><a href="https://twitter.com/CSS_Ipsum">Twitter</a></li>
+        <li class="three columns nav-links"><a href="/new-entry/">Create</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+  {% block content %}
+  {% endblock %}
+  </main>
+
+</body>
+</html>
