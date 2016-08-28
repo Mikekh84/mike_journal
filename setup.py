@@ -10,8 +10,12 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'pyramid',
-    'pyramid_chameleon',
+    'pyramid_jinja2',
     'pyramid_debugtoolbar',
+    'pyramid_tm',
+    'SQLAlchemy',
+    'transaction',
+    'zope.sqlalchemy',
     'waitress',
     ]
 
@@ -34,7 +38,7 @@ setup(name='learning_journal',
       author='',
       author_email='',
       url='',
-      keywords='web pyramid pylons',
+      keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
@@ -45,5 +49,7 @@ setup(name='learning_journal',
       entry_points="""\
       [paste.app_factory]
       main = learning_journal:main
+      [console_scripts]
+      initialize_learning_journal_db = learning_journal.scripts.initializedb:main
       """,
       )
