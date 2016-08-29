@@ -1,23 +1,22 @@
 from pyramid.view import view_config
-from pyramid.response import Response
-from .journal import JOURNAL_ENTRIES as JOURNAL_ENTRIES
 from pyramid.exceptions import HTTPNotFound
 from sqlalchemy.exc import DBAPIError
-from ..models import MyModel
+from ..models import Entry
 
 
 @view_config(route_name="home", renderer="../templates/index.jinja2")
 def list_view(request):
     """View home and list of journals."""
-    return {"entries": JOURNAL_ENTRIES}
+    entries = request.dbsession.query(Entry).order_by(Entry.id.desc())
+    return {"entries": entries}
 
 
 @view_config(route_name="edit", renderer="../templates/edit.jinja2")
 def edit_view(request):
     """View the edit view."""
-    for entry in JOURNAL_ENTRIES:
-        if entry['id'] == request.matchdict["id"]:
-            return {"entry": entry}
+    get_id = request.matchdict['id']
+    entry = request.dbsession.query(Entry).filter(Entry.id == get_id).first()
+    return {"entry": entry}
     return HTTPNotFound
 
 
@@ -30,7 +29,9 @@ def create_view(request):
 @view_config(route_name="detail", renderer="../templates/journal.jinja2")
 def detail_view(request):
     """View the detail view."""
-    for entry in JOURNAL_ENTRIES:
-        if entry['id'] == request.matchdict["id"]:
-            return {"entry": entry}
-    return HTTPNotFound
+    try:
+        get_id = request.matchdict['id']
+        entry = request.dbsession.query(Entry).filter(Entry.id == get_id).first()
+        return {"entry": entry}
+    except DBAPIError:
+        return HTTPNotFound
