@@ -3,7 +3,7 @@
     <h2>Journal Entries</h2>
       <ul class="journal">
       {% for entry in entries %}
-        <li><a href="journal/{{ entry.id }}">{{ entry.title }}</a></li>{{ entry.date }}</li></br>
+        <li><a href={{ request.route_url('detail', id=entry.id) }}>{{ entry.title }}</a></li>{{ entry.date }}</li></br>
       {% endfor %}
       </ul>
   {% endblock %}

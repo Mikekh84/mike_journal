@@ -15,10 +15,9 @@ def list_view(request):
 def edit_view(request):
     """View the edit view."""
     get_id = request.matchdict['id']
-    entry = request.dbsession.query(Entry).filter(Entry.id == get_id).first()
+    entry = request.dbsession.query(Entry).filter(Entry.id == get_id).first()  # order by date.
     return {"entry": entry}
-    return HTTPNotFound
-
+    # Handle an error 
 
 @view_config(route_name="create", renderer="../templates/create.jinja2")
 def create_view(request):
@@ -35,3 +34,10 @@ def detail_view(request):
         return {"entry": entry}
     except DBAPIError:
         return HTTPNotFound
+
+
+# if request.method == POST
+    # title = request.params.get('title', '')
+    # httpFound modeule
+    # return HTTFound(location=request.route_ur('home'))
+    # db.flush

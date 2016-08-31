@@ -3,8 +3,8 @@
 <head>
   <title>Learning Journal</title>
   <meta charset="utf-8">
-    <link rel = "stylesheet" type= "text/css" href = "normalize.css"/>
-    <link rel = "stylesheet" type= "text/css" href = "style.css"/>
+    <link rel = "stylesheet" type= "text/css" href ={{ request.static_url('learning_journal:static/normalize.css') }}/>
+    <link rel = "stylesheet" type= "text/css" href ={{ request.static_url('learning_journal:static/style.css') }}/>
 </head>
 
 
@@ -13,10 +13,10 @@
     <h1 id="title">Mike's Learning Journal</h1>
     <nav>
       <ul>
-        <li class="three columns nav-links"><a href="/" id="home">Home</a></li>
+        <li class="three columns nav-links"><a href={{request.route_url('home') }} id="home">Home</a></li>
         <li class="three columns nav-links" ><a href="#" id="about">About</a></li>
         <li class="three columns nav-links"><a href="https://twitter.com/CSS_Ipsum">Twitter</a></li>
-        <li class="three columns nav-links"><a href="/new-entry/">Create</a></li>
+        <li class="three columns nav-links"><a href={{ request.route_url('create') }}>Create</a></li>
       </ul>
     </nav>
   </header>
