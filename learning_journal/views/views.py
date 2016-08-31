@@ -1,5 +1,5 @@
 from pyramid.view import view_config
-from pyramid.exceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from sqlalchemy.exc import DBAPIError
 from ..models import Entry
 
@@ -17,11 +17,19 @@ def edit_view(request):
     get_id = request.matchdict['id']
     entry = request.dbsession.query(Entry).filter(Entry.id == get_id).first()  # order by date.
     return {"entry": entry}
-    # Handle an error 
+    # Handle an error
+
 
 @view_config(route_name="create", renderer="../templates/create.jinja2")
 def create_view(request):
     """View the create view."""
+    if request.method == 'POST':
+        new_title = request.params.get('title')
+        new_body = request.params.get('body')
+        new = Entry(title=new_title, body=new_body, date='8/16/204')
+        request.dbsession.add(new)
+        request.dbsession.flush()
+        return HTTPFound(location=request.route_url('home'))
     return {}
 
 
