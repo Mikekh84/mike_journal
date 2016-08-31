@@ -7,7 +7,7 @@ from ..models import Entry
 @view_config(route_name="home", renderer="../templates/index.jinja2")
 def list_view(request):
     """View home and list of journals."""
-    entries = request.dbsession.query(Entry).order_by(Entry.id.desc())
+    entries = request.dbsession.query(Entry).order_by(Entry.id.desc()) # order by date
     return {"entries": entries}
 
 
@@ -15,7 +15,13 @@ def list_view(request):
 def edit_view(request):
     """View the edit view."""
     get_id = request.matchdict['id']
-    entry = request.dbsession.query(Entry).filter(Entry.id == get_id).first()  # order by date.
+    entry = request.dbsession.query(Entry).filter(Entry.id == get_id).first()
+    if request.method == "POST":
+        entry.title = request.params.get('title')
+        entry.body = request.params.get('body')
+        request.dbsession.add(entry)
+        request.dbsession.flush()
+        return HTTPFound(location=request.route_url('home'))
     return {"entry": entry}
     # Handle an error
 
