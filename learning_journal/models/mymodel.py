@@ -1,18 +1,25 @@
 from sqlalchemy import (
     Column,
-    Index,
     Integer,
     Text,
+    Unicode,
+    UnicodeText,
+    DateTime,
 )
 
 from .meta import Base
 
 
-class MyModel(Base):
-    __tablename__ = 'models'
+class Entry(Base):
+    """Entry for journal entries."""
+
+    __tablename__ = 'entries'
     id = Column(Integer, primary_key=True)
-    name = Column(Text)
-    value = Column(Integer)
+    title = Column(Unicode(128), unique=True)
+    body = Column(UnicodeText)
+    date = Column(DateTime)
 
-
-Index('my_index', MyModel.name, unique=True, mysql_length=255)
+# datetime.datetime.utcnow
+# now = datetime.datetime.utcnow()
+# now.strftime(*Stuff)
+# ptz worldtime timezone library

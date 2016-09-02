@@ -1,0 +1,11 @@
+{% extends "layout.jinja2" %}
+
+
+{% block content %}
+    <article>
+      <h2>{{ entry.title }}</h2>
+      <h6>{{ entry.date }}</h6>
+      <p>{{ entry.body }}</p>
+    </article>
+    <a href={{ request.route_url('edit', id=entry.id) }}><button>Edit</button></a>
+{% endblock %}
