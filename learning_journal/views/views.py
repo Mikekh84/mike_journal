@@ -1,4 +1,5 @@
 from pyramid.view import view_config
+from pyramid.security import remember, forget
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from sqlalchemy.exc import DBAPIError
 from ..models import Entry
@@ -51,8 +52,16 @@ def detail_view(request):
         return HTTPNotFound
 
 
-# if request.method == POST
-    # title = request.params.get('title', '')
-    # httpFound modeule
-    # return HTTFound(location=request.route_ur('home'))
-    # db.flush
+@view_config(route_name="login", renderer='templates/login.jinja2')
+def login(request):
+    """The login view."""
+    if request.method == 'post':
+        username = request.params.get('username', '')
+        password = request.params.get('password', '')
+        if check_cred(username, password):
+            headers = remember(request, username)
+            return HTTPFound(localation=request.route_url('home'), headers=headers)
+        else:
+            return {'error': "Username or password is not correct."}
+
+    return {'error': "An error happened."}
