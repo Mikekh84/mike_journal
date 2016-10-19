@@ -33,10 +33,11 @@ def main(argv=sys.argv):
     setup_logging(config_uri)
     settings = get_appsettings(config_uri, options=options)
 
+    settings['sqlalchemy.url'] = os.environ['DATABASE_URL']
     engine = get_engine(settings)
     Base.metadata.create_all(engine)
 
-    # session_factory = get_session_factory(engine)
+    session_factory = get_session_factory(engine)
 
     # with transaction.manager:
     #     dbsession = get_tm_session(session_factory, transaction.manager)

@@ -1,7 +1,9 @@
 from pyramid.view import view_config
+from pyramid.security import remember, forget
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from sqlalchemy.exc import DBAPIError
 from ..models import Entry
+from ..security import check_cred
 
 
 @view_config(route_name="home", renderer="../templates/index.jinja2")
@@ -11,7 +13,7 @@ def list_view(request):
     return {"entries": entries}
 
 
-@view_config(route_name="edit", renderer="../templates/edit.jinja2")
+@view_config(route_name="edit", renderer="../templates/edit.jinja2", permission="secured")
 def edit_view(request):
     """View the edit view."""
     get_id = request.matchdict['id']
@@ -26,7 +28,7 @@ def edit_view(request):
     # Handle an error
 
 
-@view_config(route_name="create", renderer="../templates/create.jinja2")
+@view_config(route_name="create", renderer="../templates/create.jinja2", permission="secured")
 def create_view(request):
     """View the create view."""
     if request.method == 'POST':
@@ -50,8 +52,22 @@ def detail_view(request):
         return HTTPNotFound
 
 
-# if request.method == POST
-    # title = request.params.get('title', '')
-    # httpFound modeule
-    # return HTTFound(location=request.route_ur('home'))
-    # db.flush
+@view_config(route_name="login", renderer='../templates/login.jinja2')
+def login(request):
+    """The login view."""
+    if request.method == 'POST':
+        username = request.params.get('username', '')
+        password = request.params.get('password', '')
+        if check_cred(username, password):
+            return HTTPFound(
+                location=request.route_url('home'),
+                headers=remember(request, username))
+        else:
+            return {'error': "Username or password is not correct."}
+    return {'error': "An error happened."}
+
+
+@view_config(route_name='logout')
+def logout(request):
+    headers = forget(request)
+    return HTTPFound(request.route_url('home'), headers=headers)
