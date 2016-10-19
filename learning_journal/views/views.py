@@ -65,3 +65,9 @@ def login(request):
         else:
             return {'error': "Username or password is not correct."}
     return {'error': "An error happened."}
+
+
+@view_config(route_name='logout')
+def logout(request):
+    headers = forget(request)
+    return HTTPFound(request.route_url('home'), headers=headers)
