@@ -13,7 +13,7 @@ def list_view(request):
     return {"entries": entries}
 
 
-@view_config(route_name="edit", renderer="../templates/edit.jinja2")
+@view_config(route_name="edit", renderer="../templates/edit.jinja2", permission="secured")
 def edit_view(request):
     """View the edit view."""
     get_id = request.matchdict['id']
