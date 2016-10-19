@@ -39,7 +39,7 @@ def check_cred(username, password):
     is_authenticated = False
     if username == stored_username:
         try:
-            return pwd_context.verify(password, stored_password)
+            is_authenticated = pwd_context.verify(password, stored_password)
         except ValueError:
             pass
     return is_authenticated

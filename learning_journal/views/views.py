@@ -52,16 +52,16 @@ def detail_view(request):
         return HTTPNotFound
 
 
-@view_config(route_name="login", renderer='templates/login.jinja2')
+@view_config(route_name="login", renderer='../templates/login.jinja2')
 def login(request):
     """The login view."""
-    if request.method == 'post':
+    if request.method == 'POST':
         username = request.params.get('username', '')
         password = request.params.get('password', '')
         if check_cred(username, password):
-            headers = remember(request, username)
-            return HTTPFound(localation=request.route_url('home'), headers=headers)
+            return HTTPFound(
+                location=request.route_url('home'),
+                headers=remember(request, username))
         else:
             return {'error': "Username or password is not correct."}
-
     return {'error': "An error happened."}
